@@ -5,68 +5,95 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wedding Invitation</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;500&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+
 <style>
 
-/* ================= ОБЩИЕ СТИЛИ ================= */
+/* ===== ОБЩИЕ ===== */
 
 body{
 margin:0;
-font-family:'Georgia', serif;
-background:#fff7f2;
-color:#5a3e36;
-text-align:center;
+background:linear-gradient(to bottom,#fff6f0,#ffe8dc);
+font-family:'Cormorant Garamond', serif;
+color:#5c3a32;
 overflow-x:hidden;
-}
-
-h1,h2{
-margin:20px 0;
+scroll-behavior:smooth;
 }
 
 section{
+min-height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
 padding:80px 20px;
+position:relative;
+opacity:0;
+transform:translateY(60px);
+transition:1.5s ease;
 }
 
-/* ================= КОНВЕРТ ================= */
+section.show{
+opacity:1;
+transform:translateY(0);
+}
+
+h1{
+font-family:'Playfair Display', serif;
+font-size:60px;
+letter-spacing:6px;
+margin:0;
+}
+
+h2{
+font-weight:300;
+font-size:26px;
+margin-top:20px;
+}
+
+/* ===== КОНВЕРТ 3D ===== */
 
 #envelopeScreen{
 position:fixed;
 width:100%;
 height:100vh;
-background:#fbe3d8;
+background:linear-gradient(135deg,#fcd5ce,#fae1dd);
 display:flex;
 justify-content:center;
 align-items:center;
 z-index:10000;
-transition:1s ease;
+transition:1.2s ease;
 }
 
 .envelope-wrapper{
-perspective:1000px;
+perspective:1200px;
 cursor:pointer;
 }
 
 .envelope{
 position:relative;
-width:340px;
-height:220px;
-background:#ffd8c2;
-border:2px solid #e8a87c;
+width:360px;
+height:230px;
+background:#ffc8b6;
+border-radius:6px;
+box-shadow:0 20px 60px rgba(0,0,0,0.15);
 overflow:hidden;
 }
 
 .letter{
 position:absolute;
-width:90%;
-height:90%;
-background:#fff;
-left:5%;
-top:5%;
+width:92%;
+height:92%;
+background:white;
+left:4%;
+top:4%;
 display:flex;
 justify-content:center;
 align-items:center;
-font-size:18px;
+font-size:20px;
 transform:translateY(100%);
-transition:1.2s ease;
+transition:1.4s ease;
 z-index:1;
 }
 
@@ -74,10 +101,10 @@ z-index:1;
 position:absolute;
 width:100%;
 height:100%;
-background:#f3c1a6;
-clip-path:polygon(0 0, 50% 60%, 100% 0);
+background:#ffb5a7;
+clip-path:polygon(0 0, 50% 70%, 100% 0);
 transform-origin:top;
-transition:1s ease;
+transition:1.2s ease;
 z-index:2;
 }
 
@@ -86,141 +113,156 @@ transform:rotateX(180deg);
 }
 
 .envelope.open .letter{
-transform:translateY(-20%);
+transform:translateY(-25%);
 }
 
-/* ================= МУЗЫКА ================= */
+/* ===== HERO ===== */
+
+.hero{
+background:transparent;
+}
+
+.hero h1{
+animation:fadeIn 2s ease forwards;
+}
+
+@keyframes fadeIn{
+from{opacity:0; transform:translateY(40px);}
+to{opacity:1; transform:translateY(0);}
+}
+
+/* ===== ФОТО ===== */
+
+.photo{
+width:85%;
+max-width:650px;
+height:420px;
+background:linear-gradient(45deg,#ffb5a7,#fcd5ce);
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+font-size:28px;
+box-shadow:0 20px 60px rgba(0,0,0,0.1);
+}
+
+/* ===== ТЕКСТ ===== */
+
+.text{
+max-width:750px;
+font-size:24px;
+line-height:1.6;
+margin-top:30px;
+}
+
+/* ===== КАЛЕНДАРЬ ===== */
+
+.calendar{
+background:white;
+padding:40px;
+border-radius:20px;
+box-shadow:0 30px 80px rgba(0,0,0,0.1);
+}
+
+.calendar table{
+border-collapse:collapse;
+font-size:20px;
+}
+
+.calendar th,
+.calendar td{
+padding:15px 20px;
+}
+
+.highlight{
+background:#e5989b;
+color:white;
+border-radius:50%;
+}
+
+/* ===== ТАЙМЕР ===== */
+
+.timer{
+margin-top:40px;
+font-size:26px;
+}
+
+/* ===== ЛЕПЕСТКИ ===== */
+
+.petal{
+position:fixed;
+top:-20px;
+width:12px;
+height:12px;
+background:#ffb5a7;
+border-radius:50%;
+opacity:0.7;
+animation:fall linear infinite;
+}
+
+@keyframes fall{
+to{
+transform:translateY(110vh) rotate(360deg);
+}
+}
+
+/* ===== МУЗЫКА ===== */
 
 #musicBtn{
 position:fixed;
 bottom:20px;
 right:20px;
-padding:10px 20px;
-background:#e8a87c;
+padding:12px 25px;
+background:#e5989b;
 color:white;
 border:none;
 cursor:pointer;
 z-index:999;
+border-radius:30px;
 }
 
-/* ================= ПЕРВЫЙ ЭКРАН ================= */
-
-.hero{
-background:#ffe8dd;
-}
-
-.hero h1{
-font-size:42px;
-}
-
-/* ================= ФОТО БЛОК ================= */
-
-.photo{
-width:80%;
-max-width:500px;
-height:300px;
-margin:20px auto;
-background:#f3c1a6;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:22px;
-color:white;
-}
-
-/* ================= ТЕКСТ БЛОК ================= */
-
-.text-block{
-max-width:700px;
-margin:20px auto;
-font-size:20px;
-}
-
-/* ================= КАЛЕНДАРЬ ================= */
-
-.calendar{
-display:inline-block;
-background:white;
-padding:20px;
-border-radius:10px;
-box-shadow:0 5px 20px rgba(0,0,0,0.1);
-}
-
-.calendar table{
-border-collapse:collapse;
-}
-
-.calendar th,
-.calendar td{
-padding:10px 15px;
-}
-
-.highlight{
-background:#e8a87c;
-color:white;
-border-radius:50%;
-}
-
-/* ================= ТАЙМЕР ================= */
-
-.timer{
-font-size:22px;
-margin-top:30px;
-}
-
-/* ================= АДАПТИВ ================= */
+/* ===== АДАПТИВ ===== */
 
 @media(max-width:600px){
-.hero h1{
-font-size:28px;
-}
-.photo{
-height:200px;
-}
+h1{font-size:36px;}
+.photo{height:250px;font-size:20px;}
+.text{font-size:18px;}
 }
 
 </style>
 </head>
 <body>
 
-<!-- Музыка -->
 <audio id="bgMusic" loop preload="auto">
 <source src="music.mp3" type="audio/mpeg">
 </audio>
+<button id="musicBtn">Музыка</button>
 
-<button id="musicBtn">Включить музыку</button>
-
-<!-- Конверт -->
 <div id="envelopeScreen">
 <div class="envelope-wrapper" onclick="openEnvelope()">
 <div class="envelope">
-<div class="letter">Нажмите, чтобы открыть приглашение</div>
+<div class="letter">Нажмите, чтобы открыть</div>
 <div class="flap"></div>
 </div>
 </div>
 </div>
 
-<!-- Главный экран -->
 <section class="hero">
 <h1>06.06.2026</h1>
 <h2>Мы приглашаем вас на нашу свадьбу</h2>
 </section>
 
-<!-- Фото 1 -->
 <section>
 <div class="photo">Фотография 1</div>
-<div class="text-block">Текст 1</div>
+<div class="text">Текст 1</div>
 </section>
 
-<!-- Фото 2 -->
 <section>
 <div class="photo">Фотография 2</div>
-<div class="text-block">Текст 2</div>
+<div class="text">Текст 2</div>
 </section>
 
-<!-- Календарь -->
-<section>
-<h2>Июнь 2026</h2>
+<section><h2>Июнь 2026</h2>
 <div class="calendar">
 <table>
 <tr>
@@ -241,43 +283,54 @@ height:200px;
 <span id="minutes"></span> минут
 <span id="seconds"></span> секунд
 </div>
-
 </section>
 
 <script>
 
-const music = document.getElementById("bgMusic");
-const musicBtn = document.getElementById("musicBtn");
-music.volume = 0.5;
+/* Появление секций */
+const sections=document.querySelectorAll("section");
+window.addEventListener("scroll",()=>{
+sections.forEach(sec=>{
+if(sec.getBoundingClientRect().top < window.innerHeight-100){
+sec.classList.add("show");
+}
+});
+});
 
-musicBtn.addEventListener("click", function(){
-music.play();
-musicBtn.innerText="Музыка играет";
-});function openEnvelope(){
+/* Конверт */
+function openEnvelope(){
 document.querySelector(".envelope").classList.add("open");
-
 setTimeout(()=>{
 document.getElementById("envelopeScreen").style.opacity="0";
 setTimeout(()=>{
 document.getElementById("envelopeScreen").style.display="none";
-},1000);
-},1400);
-
-music.play();
-musicBtn.innerText="Музыка играет";
+},1200);
+},1500);
+startPetals();
+document.getElementById("bgMusic").play();
 }
 
-const weddingDate = new Date("June 6, 2026 00:00:00").getTime();
-
+/* Таймер */
+const weddingDate=new Date("June 6, 2026 00:00:00").getTime();
 setInterval(()=>{
-const now = new Date().getTime();
-const distance = weddingDate - now;
-
-document.getElementById("days").innerHTML=Math.floor(distance/(1000*60*60*24));
-document.getElementById("hours").innerHTML=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
-document.getElementById("minutes").innerHTML=Math.floor((distance%(1000*60*60))/(1000*60));
-document.getElementById("seconds").innerHTML=Math.floor((distance%(1000*60))/1000);
+let now=new Date().getTime();
+let d=weddingDate-now;
+days.innerHTML=Math.floor(d/(1000*60*60*24));
+hours.innerHTML=Math.floor((d%(1000*60*60*24))/(1000*60*60));
+minutes.innerHTML=Math.floor((d%(1000*60*60))/(1000*60));
+seconds.innerHTML=Math.floor((d%(1000*60))/1000);
 },1000);
+
+/* Лепестки */
+function startPetals(){
+for(let i=0;i<20;i++){
+let petal=document.createElement("div");
+petal.className="petal";
+petal.style.left=Math.random()*100+"vw";
+petal.style.animationDuration=(5+Math.random()*5)+"s";
+document.body.appendChild(petal);
+}
+}
 
 </script>
 
