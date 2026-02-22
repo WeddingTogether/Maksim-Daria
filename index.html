@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wedding Invitation</title>
+
+<style>
+
+/* ================= ОБЩИЕ СТИЛИ ================= */
+
+body{
+margin:0;
+font-family:'Georgia', serif;
+background:#fff7f2;
+color:#5a3e36;
+text-align:center;
+overflow-x:hidden;
+}
+
+h1,h2{
+margin:20px 0;
+}
+
+section{
+padding:80px 20px;
+}
+
+/* ================= КОНВЕРТ ================= */
+
+#envelopeScreen{
+position:fixed;
+width:100%;
+height:100vh;
+background:#fbe3d8;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:10000;
+transition:1s ease;
+}
+
+.envelope-wrapper{
+perspective:1000px;
+cursor:pointer;
+}
+
+.envelope{
+position:relative;
+width:340px;
+height:220px;
+background:#ffd8c2;
+border:2px solid #e8a87c;
+overflow:hidden;
+}
+
+.letter{
+position:absolute;
+width:90%;
+height:90%;
+background:#fff;
+left:5%;
+top:5%;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:18px;
+transform:translateY(100%);
+transition:1.2s ease;
+z-index:1;
+}
+
+.flap{
+position:absolute;
+width:100%;
+height:100%;
+background:#f3c1a6;
+clip-path:polygon(0 0, 50% 60%, 100% 0);
+transform-origin:top;
+transition:1s ease;
+z-index:2;
+}
+
+.envelope.open .flap{
+transform:rotateX(180deg);
+}
+
+.envelope.open .letter{
+transform:translateY(-20%);
+}
+
+/* ================= МУЗЫКА ================= */
+
+#musicBtn{
+position:fixed;
+bottom:20px;
+right:20px;
+padding:10px 20px;
+background:#e8a87c;
+color:white;
+border:none;
+cursor:pointer;
+z-index:999;
+}
+
+/* ================= ПЕРВЫЙ ЭКРАН ================= */
+
+.hero{
+background:#ffe8dd;
+}
+
+.hero h1{
+font-size:42px;
+}
+
+/* ================= ФОТО БЛОК ================= */
+
+.photo{
+width:80%;
+max-width:500px;
+height:300px;
+margin:20px auto;
+background:#f3c1a6;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+color:white;
+}
+
+/* ================= ТЕКСТ БЛОК ================= */
+
+.text-block{
+max-width:700px;
+margin:20px auto;
+font-size:20px;
+}
+
+/* ================= КАЛЕНДАРЬ ================= */
+
+.calendar{
+display:inline-block;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 5px 20px rgba(0,0,0,0.1);
+}
+
+.calendar table{
+border-collapse:collapse;
+}
+
+.calendar th,
+.calendar td{
+padding:10px 15px;
+}
+
+.highlight{
+background:#e8a87c;
+color:white;
+border-radius:50%;
+}
+
+/* ================= ТАЙМЕР ================= */
+
+.timer{
+font-size:22px;
+margin-top:30px;
+}
+
+/* ================= АДАПТИВ ================= */
+
+@media(max-width:600px){
+.hero h1{
+font-size:28px;
+}
+.photo{
+height:200px;
+}
+}
+
+</style>
+</head>
+<body>
+
+<!-- Музыка -->
+<audio id="bgMusic" loop preload="auto">
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<button id="musicBtn">Включить музыку</button>
+
+<!-- Конверт -->
+<div id="envelopeScreen">
+<div class="envelope-wrapper" onclick="openEnvelope()">
+<div class="envelope">
+<div class="letter">Нажмите, чтобы открыть приглашение</div>
+<div class="flap"></div>
+</div>
+</div>
+</div>
+
+<!-- Главный экран -->
+<section class="hero">
+<h1>06.06.2026</h1>
+<h2>Мы приглашаем вас на нашу свадьбу</h2>
+</section>
+
+<!-- Фото 1 -->
+<section>
+<div class="photo">Фотография 1</div>
+<div class="text-block">Текст 1</div>
+</section>
+
+<!-- Фото 2 -->
+<section>
+<div class="photo">Фотография 2</div>
+<div class="text-block">Текст 2</div>
+</section>
+
+<!-- Календарь -->
+<section>
+<h2>Июнь 2026</h2>
+<div class="calendar">
+<table>
+<tr>
+<th>Пн</th><th>Вт</th><th>Ср</th><th>Чт</th><th>Пт</th><th>Сб</th><th>Вс</th>
+</tr>
+<tr>
+<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td class="highlight">6</td><td>7</td>
+</tr>
+<tr>
+<td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td>
+</tr>
+</table>
+</div>
+
+<div class="timer">
+<span id="days"></span> дней
+<span id="hours"></span> часов
+<span id="minutes"></span> минут
+<span id="seconds"></span> секунд
+</div>
+
+</section>
+
+<script>
+
+const music = document.getElementById("bgMusic");
+const musicBtn = document.getElementById("musicBtn");
+music.volume = 0.5;
+
+musicBtn.addEventListener("click", function(){
+music.play();
+musicBtn.innerText="Музыка играет";
+});function openEnvelope(){
+document.querySelector(".envelope").classList.add("open");
+
+setTimeout(()=>{
+document.getElementById("envelopeScreen").style.opacity="0";
+setTimeout(()=>{
+document.getElementById("envelopeScreen").style.display="none";
+},1000);
+},1400);
+
+music.play();
+musicBtn.innerText="Музыка играет";
+}
+
+const weddingDate = new Date("June 6, 2026 00:00:00").getTime();
+
+setInterval(()=>{
+const now = new Date().getTime();
+const distance = weddingDate - now;
+
+document.getElementById("days").innerHTML=Math.floor(distance/(1000*60*60*24));
+document.getElementById("hours").innerHTML=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+document.getElementById("minutes").innerHTML=Math.floor((distance%(1000*60*60))/(1000*60));
+document.getElementById("seconds").innerHTML=Math.floor((distance%(1000*60))/1000);
+},1000);
+
+</script>
+
+</body>
+</html>
